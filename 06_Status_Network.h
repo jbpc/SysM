@@ -1,4 +1,4 @@
-char Status_Network(long *Network_Sent, long *Network_Received){
+char Status_Network(double *Network_Sent, double *Network_Received){
 //*************************************************************************************************************************
 // Raw data
     system("ifstat > Netflow");

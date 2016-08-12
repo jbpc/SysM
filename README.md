@@ -1,10 +1,9 @@
 # SysM
 A CentOS system status monitor for
-> Time
-> Disk usage
-> Memory
-> CPU
-> Network (Working on it)
-
+1. Time
+2. Disk usage
+3. Memory
+4. CPU
+5. Network (Working on it)
 # Compilling
 Check 99_Compiller.sh

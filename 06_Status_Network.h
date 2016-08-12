@@ -1,17 +1,17 @@
 char Status_Network(long *Network_Sent, long *Network_Received){
 //*************************************************************************************************************************
 // Raw data
-    system("ifstat > Netflow");
+    system("ifstat > /root/97_Journal/Netflow");
     long    File_Size = 200;
     struct  stat Status;
-    if (stat("Netflow", &Status) != -1){
+    if (stat("/root/97_Journal/Netflow", &Status) != -1){
         File_Size = Status.st_size;
     }
     char *Content = (char *)calloc(File_Size + 1, sizeof(char));
     if (Content == NULL){
         return 'X';
     }
-    if (File_Read("Netflow", Content, File_Size) == 'X'){
+    if (File_Read("/root/97_Journal/Netflow", Content, File_Size) == 'X'){
         free(Content);
         return 'X';
     }
@@ -61,5 +61,5 @@ char Status_Network(long *Network_Sent, long *Network_Received){
     *Network_Sent = atol(String_Sent);
     free(String_Sent);
     free(Content);
-	return 'V';
+    return 'V';
 }

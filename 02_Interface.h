@@ -27,10 +27,12 @@ char Interface(void){
     double  Network_Sent_Rate      = 0;
     long    Network_Received       = 0;
     double  Network_Received_Rate  = 0;
-    for (short Loop = 0; Loop < 1; Loop++){
+    for (short Loop = 0; Loop < 5; Loop++){
         Status_Memory(&Network_Sent, &Network_Received);
         Network_Sent_Rate       += Network_Sent;
         Network_Received_Rate   += Network_Received;
+        Network_Sent        = 0;
+        Network_Received    = 0;
         Delay(1, 0);
     }
     Network_Sent_Rate       /= 5;

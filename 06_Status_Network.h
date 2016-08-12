@@ -22,7 +22,7 @@ char Status_Network(long *Network_Sent, long *Network_Received){
     }
 //*************************************************************************************************************************
 // Extract Received
-    char *Network_Received_String = (char *)calloc(10, sizeof(char));
+    char *Network_Received_String = (char *)calloc(20, sizeof(char));
     if (Network_Received_String == NULL){
         free(Content);
         return 'X';
@@ -38,9 +38,9 @@ char Status_Network(long *Network_Sent, long *Network_Received){
         Cursor_Content++;
     }
     if (*(Network_Received_String + strlen(Network_Received_String) - 1) == 'K'){
-        char *Temp = (char *)calloc(10, sizeof(char));
+        char *Temp = (char *)calloc(20, sizeof(char));
         while (Temp == NULL){
-            Temp = (char *)calloc(10, sizeof(char));
+            Temp = (char *)calloc(20, sizeof(char));
         }
         strncat(Temp, Network_Received_String, strlen(Network_Received_String) - 1);
         *Network_Received = atol(Temp) * 1024;
@@ -54,7 +54,7 @@ char Status_Network(long *Network_Sent, long *Network_Received){
     Cursor_Content += 2;
     while (*Cursor_Content != ' ')Cursor_Content++;
     while (*Cursor_Content == ' ')Cursor_Content++;
-    char *Network_Sent_String = (char *)calloc(10, sizeof(char));
+    char *Network_Sent_String = (char *)calloc(20, sizeof(char));
     if (Network_Sent_String == NULL){
         free(Content);
         return 'X';
@@ -66,9 +66,9 @@ char Status_Network(long *Network_Sent, long *Network_Received){
         Cursor_Content++;
     }
     if (*(Network_Sent_String + strlen(Network_Sent_String) - 1) == 'K'){
-        char *Temp = (char *)calloc(10, sizeof(char));
+        char *Temp = (char *)calloc(20, sizeof(char));
         while (Temp == NULL){
-            Temp = (char *)calloc(10, sizeof(char));
+            Temp = (char *)calloc(20, sizeof(char));
         }
         strncat(Temp, Network_Sent_String, strlen(Network_Sent_String) - 1);
         *Network_Sent = atol(Temp) * 1024;

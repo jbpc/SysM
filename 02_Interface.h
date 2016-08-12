@@ -1,14 +1,14 @@
 char Interface(void){
 //*************************************************************************************************************************
 // Time
-    time_t  TIME;
+    time_t TIME;
     time(&TIME);
 // Disk
-    char    *Disk_Main = "/";
-    long    Disk_Total = 0;
-    long    Disk_Used  = 0;
+    char    *Disk_Main              = "/";
+    long    Disk_Total              = 0;
+    long    Disk_Used               = 0;
     Status_Disk(Disk_Main, &Disk_Total, &Disk_Used);
-    double  Disk_Percentage = 100 * ((double)Disk_Used / (double)Disk_Total);
+    double  Disk_Percentage         = 100 * ((double)Disk_Used / (double)Disk_Total);
 
     char    *Disk_Home              = "/home";
     long    Disk_home_Total         = 0;
@@ -16,27 +16,24 @@ char Interface(void){
     Status_Disk(Disk_Home, &Disk_home_Total, &Disk_home_Used);
     double  Disk_home_Percentage    = 100 * ((double)Disk_home_Used / (double)Disk_home_Total);
 // Memory
-    long    Memory_Total        = 0;
-    long    Memory_Used         = 0;
+    long    Memory_Total            = 0;
+    long    Memory_Used             = 0;
     Status_Memory(&Memory_Total, &Memory_Used);
-    double  Memory_Percentage   = 100 * ((double)(Memory_Used) / (double)(Memory_Total));
+    double  Memory_Percentage       = 100 * ((double)(Memory_Used) / (double)(Memory_Total));
 // CPU
-    double CPU_Percentage = Status_Cpu();
+    double  CPU_Percentage          = Status_Cpu();
 // Network
-    long    Network_Sent           = 0;
-    double  Network_Sent_Rate      = 0;
-    long    Network_Received       = 0;
-    double  Network_Received_Rate  = 0;
-    for (short Loop = 0; Loop < 2; Loop++){
-        Status_Network(&Network_Sent, &Network_Received);
-        Network_Sent_Rate       += Network_Sent;
-        Network_Received_Rate   += Network_Received;
-        Network_Sent            = 0;
-        Network_Received        = 0;
-        Delay(1, 0);
-    }
-    Network_Sent_Rate       /= 2;
-    Network_Received_Rate   /= 2;
+    long    Network_Sent            = 0;
+    double  Network_Sent_Rate       = 0;
+    long    Network_Received        = 0;
+    double  Network_Received_Rate   = 0;
+    Status_Network(&Network_Sent, &Network_Received);
+    Network_Sent_Rate               += Network_Sent;
+    Network_Received_Rate           += Network_Received;
+    Network_Sent                    = 0;
+    Network_Received                = 0;
+    Network_Sent_Rate               = 2;
+    Network_Received_Rate           /= 2;
 //*************************************************************************************************************************
 // Interface
     printf("\n\n\n\n\n");
@@ -49,7 +46,7 @@ char Interface(void){
     printf("\n");
     printf("Disk /home Total        %ld\n",     Disk_home_Total);
     printf("Disk /home Used         %ld\n",     Disk_home_Used);
-    printf("Disk /home Percentage   %lf%%\n",	Disk_home_Percentage);
+    printf("Disk /home Percentage   %lf%%\n",   Disk_home_Percentage);
     printf("------------------------------------------------------------\n");
     printf("Memory Total            %ld\n",     Memory_Total);
     printf("Memory Used             %ld\n",     Memory_Used);

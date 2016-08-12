@@ -23,17 +23,9 @@ char Interface(void){
 // CPU
     double  CPU_Percentage          = Status_Cpu();
 // Network
-    long    Network_Sent            = 0;
     double  Network_Sent_Rate       = 0;
-    long    Network_Received        = 0;
     double  Network_Received_Rate   = 0;
-    Status_Network(&Network_Sent, &Network_Received);
-    Network_Sent_Rate               += Network_Sent;
-    Network_Received_Rate           += Network_Received;
-    Network_Sent                    = 0;
-    Network_Received                = 0;
-    Network_Sent_Rate               = 2;
-    Network_Received_Rate           /= 2;
+    Status_Network(&Network_Sent_Rate, &Network_Received_Rate);
 //*************************************************************************************************************************
 // Interface
     printf("\n\n\n\n\n");

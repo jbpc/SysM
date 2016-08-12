@@ -1,24 +1,17 @@
 char Status_Network(long *Network_Sent, long *Network_Received){
 //*************************************************************************************************************************
 // Raw data
-    system("ifstat > /root/97_Journal/Netflow");
+    system("ifstat > Netflow");
     long    File_Size = 200;
     struct  stat Status;
-    if (stat("/root/97_Journal/Netflow", &Status) != -1){
+    if (stat("Netflow", &Status) != -1){
         File_Size = Status.st_size;
     }
     char *Content = (char *)calloc(File_Size + 1, sizeof(char));
     if (Content == NULL){
         return 'X';
     }
-    if (File_Read("/root/97_Journal/Netflow", Content, File_Size) == 'X'){
-        free(Content);
-        return 'X';
-    }
-//*************************************************************************************************************************
-// Extract Received
-    char *String_Received = (char *)calloc(10, sizeof(char));
-    if (String_Received == NULL){
+    if (File_Read("Netflow", Content, File_Size) == 'X'){
         free(Content);
         return 'X';
     }
@@ -27,39 +20,63 @@ char Status_Network(long *Network_Sent, long *Network_Received){
         while (*Cursor_Content != '\n')Cursor_Content++;
         Cursor_Content++;
     }
-    Cursor_Content += 8;
-    while (*Cursor_Content == ' ')Cursor_Content++;
+//*************************************************************************************************************************
+// Extract Received
+    char *Network_Received_String = (char *)calloc(10, sizeof(char));
+    if (Network_Received_String == NULL){
+        free(Content);
+        return 'X';
+    }
+    for (short Loop = 0; Loop < 5; Loop++){
+        while (*Cursor_Content != ' ')Cursor_Content++;
+        while (*Cursor_Content == ' ')Cursor_Content++;
+    }
     unsigned short Cursor_Received = 0;
-    while (isdigit(*Cursor_Content) != 0){
-        *(String_Received + Cursor_Received) = *Cursor_Content;
+    while (*Cursor_Content != ' '){
+        *(Network_Received_String + Cursor_Received) = *Cursor_Content;
         Cursor_Received++;
         Cursor_Content++;
     }
-    *Network_Received = atol(String_Received);
-    free(String_Received);
+    if (*(Network_Received_String + strlen(Network_Received_String) - 1) == 'K'){
+        char *Temp = (char *)calloc(10, sizeof(char));
+        while (Temp == NULL){
+            Temp = (char *)calloc(10, sizeof(char));
+        }
+        strncat(Temp, Network_Received_String, strlen(Network_Received_String) - 1);
+        *Network_Received = atol(Temp) * 1024;
+        free(Temp);
+    }else {
+        *Network_Received = atol(Network_Received_String);
+    }
+    free(Network_Received_String);
 //*************************************************************************************************************************
 // Extract Sent
-    for (short Skip = 0; Skip < 3; Cursor_Content++){
-        if (*Cursor_Content == ' '){
-            while (*Cursor_Content == ' '){
-                Cursor_Content++;
-            }
-            Skip++;
-        }
-    }
-    char *String_Sent = (char *)calloc(10, sizeof(char));
-    if (String_Sent == NULL){
+    Cursor_Content += 2;
+    while (*Cursor_Content != ' ')Cursor_Content++;
+    while (*Cursor_Content == ' ')Cursor_Content++;
+    char *Network_Sent_String = (char *)calloc(10, sizeof(char));
+    if (Network_Sent_String == NULL){
         free(Content);
         return 'X';
     }
     unsigned short Cursor_Sent = 0;
-    while (isdigit(*Cursor_Content) != 0){
-        *(String_Sent + Cursor_Sent) = *Cursor_Content;
+    while (*Cursor_Content != ' '){
+        *(Network_Sent_String + Cursor_Sent) = *Cursor_Content;
         Cursor_Sent++;
         Cursor_Content++;
     }
-    *Network_Sent = atol(String_Sent);
-    free(String_Sent);
+    if (*(Network_Sent_String + strlen(Network_Sent_String) - 1) == 'K'){
+        char *Temp = (char *)calloc(10, sizeof(char));
+        while (Temp == NULL){
+            Temp = (char *)calloc(10, sizeof(char));
+        }
+        strncat(Temp, Network_Sent_String, strlen(Network_Sent_String) - 1);
+        *Network_Sent = atol(Temp) * 1024;
+        free(Temp);
+    }else {
+        *Network_Sent = atol(Network_Sent_String);
+    }
+    free(Network_Sent_String);
     free(Content);
     return 'V';
 }
